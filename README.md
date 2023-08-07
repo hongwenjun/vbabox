@@ -2,7 +2,7 @@
 
 ![](https://github.com/hongwenjun/vbabox/blob/main/img/vbabox.webp)
 
-CorelDRAW VBA 插件 简易的长宽高盒子插件和源码和步骤原理
+## CorelDRAW VBA 插件 简易的长宽高盒子插件和源码和步骤原理
 
 https://www.bilibili.com/video/BV1MF411f7qu/
 
@@ -60,4 +60,23 @@ Private Function DrawLine(X1, Y1, X2, Y2) As Shape
   Set DrawLine = ActiveLayer.CreateLineSegment(X1, Y1, X2, Y2)
   DrawLine.Outline.SetProperties Color:=CreateCMYKColor(0, 100, 0, 0)
 End Function
+```
+
+![](https://lyvba.com/wp-content/uploads/2023/08/box3.png)
+## 圆角插口和翅膀的代码
+
+- 建立圆角矩形函数 `CreateRectangle(0, 0, l, b, 50, 50)` ，第5-6参数，指定上2圆角的系数
+- 翅膀是个自定义多节点曲线，先用矩形函数，绘制一个临时物件 `s` 确定范围大小
+- 然后定义 `DrawWing(s As Shape)` 函数来手工绘制，如图
+- `sp.AppendLineSegment 4, y - 2.5`  '// 绘制直线
+- `sp.AppendCurveSegment2 6.5, y, 4.1, y - 1.25, 5.1, y`  '// 绘制曲线
+
+### 绘制整个盒子完整的代码
+https://github.com/hongwenjun/vbabox/blob/main/Box.bas
+
+### 最后在窗口控间中添加一个图片当按钮
+```vbs
+Private Sub MakeBox_Click()
+  box.Simple_box_three
+End Sub
 ```
