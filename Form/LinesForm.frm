@@ -19,7 +19,7 @@ End Sub
 
 
 '// ×ó¼üÓÒ¼üCtrlÈý¼ü¿ØÖÆ
-Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
   If Button = 2 Then
     lines.Draw_Multiple_Lines cdrAlignVCenter
     
@@ -31,9 +31,8 @@ Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integ
 End Sub
 
 
-
 '''////  Éµ¹Ï»ð³µÅÅÁÐ  ////'''
-Private Sub TOP_ALIGN_BT_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+Private Sub TOP_ALIGN_BT_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
   If Button = 2 Then
     Tools.Simple_Train_Arrangement 3#
   ElseIf Shift = fmCtrlMask Then
@@ -44,7 +43,7 @@ Private Sub TOP_ALIGN_BT_MouseDown(ByVal Button As Integer, ByVal Shift As Integ
 End Sub
 
 '''////  Éµ¹Ï½×ÌÝÅÅÁÐ  ////'''
-Private Sub LEFT_ALIGN_BT_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+Private Sub LEFT_ALIGN_BT_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
   If Button = 2 Then
     Tools.Simple_Ladder_Arrangement 3#
   ElseIf Shift = fmCtrlMask Then
@@ -55,8 +54,27 @@ Private Sub LEFT_ALIGN_BT_MouseDown(ByVal Button As Integer, ByVal Shift As Inte
 End Sub
 
 
-Private Sub MakeBox_Click()
-  box.Simple_box_three
+Private Sub MakeBox_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
+  On Error GoTo ErrorHandler
+  API.BeginOpt
+  
+  Dim size As Variant
+  size = input_box_lwh
+  l = size(0): w = size(1): h = size(2): b = size(3)
+  If b = 0 Then b = 15
+  
+  If Button = 2 Then
+    box.Simple_box_five l, w, h, b
+  ElseIf Shift = fmCtrlMask Then
+    box.Simple_box_four l, w, h, b
+  Else
+    box.Simple_box_three l, w, h, b
+  End If
+  
+
+  
+ErrorHandler:
+  API.EndOpt
 End Sub
 
 Private Sub Cmd_3D_Click()
