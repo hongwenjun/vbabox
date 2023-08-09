@@ -71,8 +71,6 @@ Private Sub MakeBox_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, B
     box.Simple_box_three l, w, h, b
   End If
   
-
-  
 ErrorHandler:
   API.EndOpt
 End Sub

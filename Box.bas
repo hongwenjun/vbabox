@@ -20,7 +20,10 @@ Public Function Simple_box_five(Optional ByVal l As Double, Optional ByVal w As 
   Set top_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 75, 75)
   top_RoundRect.Move l1x, h + w
   Set Bond = DrawBond(b, h, l4x, 0)
-    
+
+  Set SealLine = Draw_SealLine(l, l1x, h + w - 1)
+  Set top_RoundRect = top_RoundRect.Weld(topRect, False, False)
+
   '// 绘制box 2个翅膀
   Set sh = DrawWing(w, (w + b) / 2 - 2)
   wing.Add sh.Duplicate(0, h)
@@ -32,40 +35,44 @@ Public Function Simple_box_five(Optional ByVal l As Double, Optional ByVal w As 
 
   '// 添加到物件组，设置轮廓色 C100
   sr.Add mainRect_aw: sr.Add mainRect_al: sr.Add mainRect_bw: sr.Add mainRect_bl
-  sr.Add topRect: sr.Add Bond: sr.Add top_RoundRect
+  sr.Add Bond: sr.Add top_RoundRect
   sr.AddRange BottomWing
   sr.AddRange wing: sh.Delete
   sr.SetOutlineProperties Color:=CreateCMYKColor(100, 0, 0, 0)
+  sr.Add SealLine
   
   sr.CreateSelection: sr.Group
   
 End Function
 
-
 Private Function DrawBottomWing(ByVal l As Double, ByVal w As Double, ByVal b As Double) As ShapeRange
   Dim sr As New ShapeRange, s As Shape
   Dim sp As SubPath, crv(3) As Curve
   
+  w_2 = w / 2#
+  block = w * 0.275 + w * ((l - w) / w * 0.15)
+  bb = block + b: If bb < w_2 Then bb = w_2
+
   '// 绘制 Box 底下翅膀 BottomWing
   Set crv(1) = Application.CreateCurve(ActiveDocument)
   Set sp = crv(1).CreateSubPath(0, 0)
-  sp.AppendLineSegment w / 2, w * 0.275
-  sp.AppendLineSegment w / 2, w / 2 - 5
-  sp.AppendCurveSegment2 w / 2 + 5, w / 2, w / 2, w / 2 - 2.5, w / 2 + 2.5, w / 2
-  sp.AppendLineSegment w, w / 2
+  sp.AppendLineSegment w_2, block
+  sp.AppendLineSegment w_2, bb - 5
+  sp.AppendCurveSegment2 w_2 + 5, bb, w_2, bb - 2.5, w_2 + 2.5, bb
+  sp.AppendLineSegment w, bb
   sp.AppendLineSegment w, 0
   sp.Closed = True
   sr.Add ActiveLayer.CreateCurve(crv(1))
   
   Set crv(2) = Application.CreateCurve(ActiveDocument)
   Set sp = crv(2).CreateSubPath(0, 0)
-  sp.AppendLineSegment w / 2, w * 0.275
-  sp.AppendLineSegment w / 2 + b - 5, w * 0.275
-  sp.AppendCurveSegment2 w / 2 + b, w * 0.275 + 5, w / 2 + b - 2.5, w * 0.275, w / 2 + b, w * 0.275 + 2.5
-  sp.AppendLineSegment w / 2 + b, l - w * 0.275 - 5
-  sp.AppendCurveSegment2 w / 2 + b - 5, l - w * 0.275, w / 2 + b, l - w * 0.275 - 2.5, w / 2 + b - 2.5, l - w * 0.275
+  sp.AppendLineSegment w_2, block
+  sp.AppendLineSegment w_2 + b - 5, block
+  sp.AppendCurveSegment2 w_2 + b, block + 5, w_2 + b - 2.5, block, w_2 + b, block + 2.5
+  sp.AppendLineSegment w_2 + b, l - block - 5
+  sp.AppendCurveSegment2 w_2 + b - 5, l - block, w_2 + b, l - block - 2.5, w_2 + b - 2.5, l - block
   
-  sp.AppendLineSegment w / 2, l - w * 0.275
+  sp.AppendLineSegment w_2, l - block
   sp.AppendLineSegment 0, l
   sp.Closed = True
   sr.Add ActiveLayer.CreateCurve(crv(2))
@@ -73,19 +80,19 @@ Private Function DrawBottomWing(ByVal l As Double, ByVal w As Double, ByVal b As
   Set crv(3) = Application.CreateCurve(ActiveDocument)
   Set sp = crv(3).CreateSubPath(0, 0)
   sp.AppendLineSegment 0, l
-  sp.AppendLineSegment w / 2 + b, l
-  sp.AppendLineSegment w / 2 + b, l - w * 0.275 + 5
-  sp.AppendCurveSegment2 w / 2 + b - 5, l - w * 0.275, w / 2 + b, l - w * 0.275 + 2.5, w / 2 + b - 2.5, l - w * 0.275
-  sp.AppendLineSegment w / 2, l - w * 0.275
-  sp.AppendLineSegment w / 2, w * 0.275
-  sp.AppendLineSegment w / 2 + b - 5, w * 0.275
-  sp.AppendCurveSegment2 w / 2 + b, w * 0.275 - 5, w / 2 + b - 2.5, w * 0.275, w / 2 + b, w * 0.275 - 2.5
-  sp.AppendLineSegment w / 2 + b, 0
+  sp.AppendLineSegment w_2 + b, l
+  sp.AppendLineSegment w_2 + b, l - block + 5
+  sp.AppendCurveSegment2 w_2 + b - 5, l - block, w_2 + b, l - block + 2.5, w_2 + b - 2.5, l - block
+  sp.AppendLineSegment w_2, l - block
+  sp.AppendLineSegment w_2, block
+  sp.AppendLineSegment w_2 + b - 5, block
+  sp.AppendCurveSegment2 w_2 + b, block - 5, w_2 + b - 2.5, block, w_2 + b, block - 2.5
+  sp.AppendLineSegment w_2 + b, 0
   sp.Closed = True
   sr.Add ActiveLayer.CreateCurve(crv(3))
   
   '// 移动到适合的地方
-  sr(1).Move 0, -w / 2: sr(1).Rotate 180
+  sr(1).Move 0, -bb: sr(1).Rotate 180
   Set s = sr(1).Duplicate(0, 0): sr.Add s
   s.Flip cdrFlipHorizontal: s.Move w + l, 0
   
@@ -93,6 +100,7 @@ Private Function DrawBottomWing(ByVal l As Double, ByVal w As Double, ByVal b As
   sr(2).LeftX = 2 * w + l: sr(3).LeftX = w
   sr(2).TopY = 0: sr(3).TopY = 0
   Set DrawBottomWing = sr
+  
 End Function
 
 
@@ -117,12 +125,16 @@ Public Function Simple_box_four(Optional ByVal l As Double, Optional ByVal w As 
   bottomRect.Move l3x, -w
   
   '// 绘制Box 圆角矩形插口
-  Set top_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 50, 50)
+  Set top_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 75, 75)
   top_RoundRect.Move l1x, h + w
-  Set bottom_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 0, 0, 50, 50)
+  Set bottom_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 0, 0, 75, 75)
   bottom_RoundRect.Move l3x, -w - b
   Set Bond = DrawBond(b, h, l4x, 0)
-    
+  
+  Set SealLine = Draw_SealLine(l, l1x, h + w - 1)
+  Set SealLine2 = Draw_SealLine(l, l3x, -w - 1)
+  SealLine2.Rotate 180
+  
   '// 绘制box 四个翅膀
   Set sh = DrawWing(w, (w + b) / 2 - 2)
   wing.Add sh.Duplicate(0, h)
@@ -133,20 +145,23 @@ Public Function Simple_box_four(Optional ByVal l As Double, Optional ByVal w As 
   wing(3).Rotate 180
   wing(4).Flip cdrFlipVertical
 
+  Set top_RoundRect = top_RoundRect.Weld(topRect, False, False)
+  Set bottom_RoundRect = bottom_RoundRect.Weld(bottomRect, False, False)
+
   '// 添加到物件组，设置轮廓色 C100
   sr.Add mainRect_aw: sr.Add mainRect_al: sr.Add mainRect_bw: sr.Add mainRect_bl
-  sr.Add topRect: sr.Add bottomRect: sr.Add Bond
-  sr.Add top_RoundRect: sr.Add bottom_RoundRect
+  sr.Add Bond: sr.Add top_RoundRect: sr.Add bottom_RoundRect
   sr.AddRange wing: sh.Delete
   sr.SetOutlineProperties Color:=CreateCMYKColor(100, 0, 0, 0)
-  
+  sr.Add SealLine: sr.Add SealLine2
   sr.CreateSelection: sr.Group
+  
   
 End Function
 
 Public Function input_box_lwh() As Variant
   Dim str, arr, n
-  str = InputBox("请输入长x宽x高，使用空格 * x 间隔", "盒子长宽高", "100 x 100 x 100 mm") & " "
+  str = InputBox("请输入长x宽x高，使用空格 * x 间隔" & vbNewLine & "鼠标左键-右键-Ctrl三种样式", "盒子长宽高", "120 x 100 x 150 mm") & " "
   str = Newline_to_Space(str)
 
   ' 替换 mm x * 换行 TAB 为空格
@@ -181,11 +196,11 @@ Public Function Simple_box_three(Optional ByVal l As Double, Optional ByVal w As
   bottomRect.Move l3x, -w
   
   '// 绘制Box 圆角矩形插口
-  Set top_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 50, 50)
+  Set top_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 75, 75)
   top_RoundRect.Move l1x, h + w
-  Set bottom_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 0, 0, 50, 50)
+  Set bottom_RoundRect = ActiveLayer.CreateRectangle(0, 0, l, b, 0, 0, 75, 75)
   bottom_RoundRect.Move l3x, -w - b
-    
+  
   '// 绘制box 四个翅膀
   Set sh = DrawWing(w, (w + b) / 2 - 2)
   wing.Add sh.Duplicate(0, h)
@@ -196,9 +211,11 @@ Public Function Simple_box_three(Optional ByVal l As Double, Optional ByVal w As
   wing(3).Rotate 180
   wing(4).Flip cdrFlipVertical
 
+  Set top_RoundRect = top_RoundRect.Weld(topRect, False, False)
+  Set bottom_RoundRect = bottom_RoundRect.Weld(bottomRect, False, False)
+  
   '// 添加到物件组，设置轮廓色 C100
-  sr.Add mainRect: sr.Add topRect: sr.Add bottomRect
-  sr.Add top_RoundRect: sr.Add bottom_RoundRect
+  sr.Add mainRect: sr.Add top_RoundRect: sr.Add bottom_RoundRect
   sr.AddRange wing: sh.Delete
   sr.SetOutlineProperties Color:=CreateCMYKColor(100, 0, 0, 0)
   
@@ -207,9 +224,13 @@ Public Function Simple_box_three(Optional ByVal l As Double, Optional ByVal w As
   Set sl2 = DrawLine(l2x, 0, l2x, h)
   Set sl3 = DrawLine(l3x, 0, l3x, h)
   Set sl4 = DrawLine(l4x, 0, l4x, h)
+  Set SealLine = Draw_SealLine(l, l1x, h + w - 1)
+  Set SealLine2 = Draw_SealLine(l, l3x, -w - 1)
+  SealLine2.Rotate 180
   
   '// 盒子box 群组
   sr.Add sl1: sr.Add sl2: sr.Add sl3: sr.Add sl4
+  sr.Add SealLine: sr.Add SealLine2
   sr.CreateSelection: sr.Group
   
 End Function
@@ -220,6 +241,22 @@ Private Function DrawLine(X1, Y1, X2, Y2) As Shape
   DrawLine.Outline.SetProperties Color:=CreateCMYKColor(0, 100, 0, 0)
 End Function
 
+'// 绘制封口线
+Private Function Draw_SealLine(ByVal l As Double, ByVal move_x As Double, ByVal move_y As Double) As Shape
+  Dim sp As SubPath, crv As Curve
+  '// 绘制 Box 翅膀 Wing
+  Set crv = Application.CreateCurve(ActiveDocument)
+  Set sp = crv.CreateSubPath(0, 2)
+  sp.AppendLineSegment 4, 2
+  sp.AppendLineSegment 6, 0
+  sp.AppendLineSegment l - 6, 0
+  sp.AppendLineSegment l - 4, 2
+  sp.AppendLineSegment l, 2
+  sp.Closed = False
+  Set Draw_SealLine = ActiveLayer.CreateCurve(crv)
+  Draw_SealLine.Outline.SetProperties Color:=CreateCMYKColor(0, 100, 0, 0)
+  Draw_SealLine.Move move_x, move_y
+End Function
 
 Private Function DrawWing(ByVal w As Double, ByVal h As Double) As Shape
     Dim sp As SubPath, crv As Curve

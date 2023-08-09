@@ -1,5 +1,21 @@
 # vbabox
 
+## 兰雅VBA 线段简易包装盒插件  [`Lanya_LinesTool.zip`](https://lyvba.com/Lanya_LinesTool.zip) [GMS下载](https://lyvba.com/Lanya_LinesTool.zip)
+
+![](https://lyvba.com/wp-content/uploads/2023/08/vbabox3.png)
+
+## 功能介绍
+- 1.选择多个物件的多个节点，点击第一个图标连接成多线段
+- 2.选择多个物件，鼠标左右键加Ctrl，可以不同的排序分别连接多组物件的中心点
+- 3.选择多个物件，按从左到右按顶对齐，鼠标左右键加Ctrl控制物件的间距
+- 4.选择多个物件，按从上到下按左对齐，鼠标左右键加Ctrl控制物件的间距
+- 5.兰雅VBA 线段简易包装盒插件，鼠标左右键加Ctrl，目前有三种样式(如图)
+- 6.选择盒子的顶正侧三面，点击生成简易的3D变形效果
+
+### github开源网址: https://github.com/hongwenjun/vbabox
+### 兰雅VBA 线段简易包装盒插件 [免费开源下载](https://lyvba.com/Lanya_LinesTool.zip)
+
+
 ![](https://github.com/hongwenjun/vbabox/blob/main/img/vbabox.webp)
 
 ## CorelDRAW VBA 插件 简易的长宽高盒子插件和源码和步骤原理
