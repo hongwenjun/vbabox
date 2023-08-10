@@ -2,8 +2,6 @@ Attribute VB_Name = "API"
 '// This is free and unencumbered software released into the public domain.
 '// For more information, please refer to  https://github.com/hongwenjun
 
-'// Attribute VB_Name = "CorelVBA工具窗口启动"   CorelVBA Tool Window Launches  2023.6.11
-
 '// CorelDRAW 窗口刷新优化和关闭
 Public Function BeginOpt(Optional ByVal name As String = "Undo")
   EventsEnabled = False
@@ -200,14 +198,14 @@ Public Function pFootInXY(P, a, b)
     If a(1) = b(1) Then
         pFootInXY = Array(P(0), a(1), 0#): Exit Function
     End If
-    Dim aa, bb, c, d, x, y
+    Dim aa, bb, c, d, x, Y
     aa = (a(1) - b(1)) / (a(0) - b(0))
     bb = a(1) - aa * a(0)
     c = -(a(0) - b(0)) / (a(1) - b(1))
     d = P(1) - c * P(0)
     x = (d - bb) / (aa - c)
-    y = aa * x + bb
-    pFootInXY = Array(x, y, 0#)
+    Y = aa * x + bb
+    pFootInXY = Array(x, Y, 0#)
 End Function
 
 

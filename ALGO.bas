@@ -1,9 +1,12 @@
 Attribute VB_Name = "ALGO"
+'// This is free and unencumbered software released into the public domain.
+'// For more information, please refer to  https://github.com/hongwenjun
+
 '// Algorithm Ä£¿é
 #If VBA7 Then
 '// For CorelDRAW X6-2023  62bit
-Private Declare PtrSafe Function sort_byitem Lib "C:\TSP\lyvba.dll" (ByRef sr_Array As ShapeProperties, ByVal size As Long, _
-                      ByVal Sort_By As SortItem, ByRef ret_Array As Long) As Long
+'// Private Declare PtrSafe Function sort_byitem Lib "C:\TSP\lyvba.dll" (ByRef sr_Array As ShapeProperties, ByVal size As Long, _
+'//                       ByVal Sort_By As SortItem, ByRef ret_Array As Long) As Long
 #Else
 '// For CorelDRAW X4  32bit
 Declare Function sort_byitem Lib "C:\TSP\lyvba32.dll" (ByRef sr_Array As ShapeProperties, ByVal size As Long, _
