@@ -1,4 +1,7 @@
 Attribute VB_Name = "box"
+'// This is free and unencumbered software released into the public domain.
+'// For more information, please refer to  https://github.com/hongwenjun
+
 Public Function Simple_box_five(Optional ByVal l As Double, Optional ByVal w As Double, Optional ByVal h As Double, Optional ByVal b As Double = 15)
   Dim sr As New ShapeRange, wing As New ShapeRange, BottomWing As ShapeRange
   Dim sh As Shape
@@ -42,7 +45,6 @@ Public Function Simple_box_five(Optional ByVal l As Double, Optional ByVal w As 
   sr.Add SealLine
   
   sr.CreateSelection: sr.Group
-  
 End Function
 
 Private Function DrawBottomWing(ByVal l As Double, ByVal w As Double, ByVal b As Double) As ShapeRange
@@ -109,7 +111,6 @@ Public Function Simple_box_four(Optional ByVal l As Double, Optional ByVal w As 
   Dim sh As Shape
   l1x = w: l2x = w + l: l3x = 2 * w + l: l4x = 2 * (w + l)
   
-  
   '// 绘制主体上下盖矩形
   Set mainRect_aw = ActiveLayer.CreateRectangle(0, 0, w, h)
   Set mainRect_al = ActiveLayer.CreateRectangle(0, 0, l, h)
@@ -155,7 +156,6 @@ Public Function Simple_box_four(Optional ByVal l As Double, Optional ByVal w As 
   sr.SetOutlineProperties Color:=CreateCMYKColor(100, 0, 0, 0)
   sr.Add SealLine: sr.Add SealLine2
   sr.CreateSelection: sr.Group
-  
   
 End Function
 
@@ -334,22 +334,25 @@ End Function
 
 
 Public Function Simple_3Deffect()
-    Dim sr As ShapeRange    ' 定义物件范围
-    Set sr = ActiveSelectionRange   ' 选择3个物件
+  Dim sr As ShapeRange            '// 定义物件范围
+  Set sr = ActiveSelectionRange   '// 选择3个物件
   
-    If sr.Count >= 3 Then
-      ' // 先上下再左右排序
-      sr.Sort " @shape1.Top * 100 - @shape1.Left > @shape2.Top * 100 - @shape2.Left"
+  If sr.Count >= 3 Then
+  
+  '// 先上下再左右排序
+#If VBA7 Then
+    sr.Sort " @shape1.Top * 100 - @shape1.Left > @shape2.Top * 100 - @shape2.Left"
+#Else
+    Set ssr = X4_Sort_ShapeRange(sr, topWt_left)
+#End If
+
+    sr(1).Stretch 0.951, 0.525      ' 顶盖物件缩放修正和变形
+    sr(1).Skew 41.7, 7#
       
-      sr(1).Stretch 0.951, 0.525      ' 顶盖物件缩放修正和变形
-      sr(1).Skew 41.7, 7#
-        
-      sr(2).Stretch 0.951, 0.937      ' 正面物件缩放修正和变形
-      sr(2).Skew 0#, 7#
-      
-      sr(3).Stretch 0.468, 0.937      ' 侧面物件缩放修正和变形
-      sr(3).Skew 0#, -45#
-      
-    End If
+    sr(2).Stretch 0.951, 0.937      ' 正面物件缩放修正和变形
+    sr(2).Skew 0#, 7#
     
+    sr(3).Stretch 0.468, 0.937      ' 侧面物件缩放修正和变形
+    sr(3).Skew 0#, -45#
+  End If
 End Function

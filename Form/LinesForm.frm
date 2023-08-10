@@ -13,13 +13,22 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+'// This is free and unencumbered software released into the public domain.
+'// For more information, please refer to  https://github.com/hongwenjun
+
 Private Sub MyPen_Click()
+On Error GoTo ErrorHandler
+  API.BeginOpt
   lines.Nodes_DrawLines
+ErrorHandler:
+  API.EndOpt
 End Sub
 
 
 '// ×ó¼üÓÒ¼üCtrlÈý¼ü¿ØÖÆ
 Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
+On Error GoTo ErrorHandler
+  API.BeginOpt
   If Button = 2 Then
     lines.Draw_Multiple_Lines cdrAlignVCenter
     
@@ -28,6 +37,8 @@ Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integ
   Else
     lines.Draw_Multiple_Lines 0
   End If
+ErrorHandler:
+  API.EndOpt
 End Sub
 
 
