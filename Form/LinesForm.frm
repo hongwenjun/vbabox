@@ -16,6 +16,7 @@ Attribute VB_Exposed = False
 '// This is free and unencumbered software released into the public domain.
 '// For more information, please refer to  https://github.com/hongwenjun
 
+<<<<<<< HEAD
 '// ²å¼þÃû³Æ VBA_UserForm
 Private Const TOOLNAME As String = "LYVBA"
 Private Const SECTION As String = "LinesForm"
@@ -45,6 +46,8 @@ Sub saveFormPos(bDoSave As Boolean)
   End If
 End Sub
 
+=======
+>>>>>>> 06150b8661ccde06bd8f1e2522c77ce48be72b83
 Private Sub MyPen_Click()
 On Error GoTo ErrorHandler
   API.BeginOpt
@@ -55,7 +58,11 @@ End Sub
 
 
 '// ×ó¼üÓÒ¼üCtrlÈý¼ü¿ØÖÆ
+<<<<<<< HEAD
 Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+=======
+Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
+>>>>>>> 06150b8661ccde06bd8f1e2522c77ce48be72b83
 On Error GoTo ErrorHandler
   API.BeginOpt
   If Button = 2 Then
