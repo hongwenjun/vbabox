@@ -1,4 +1,7 @@
 Attribute VB_Name = "box"
+'// This is free and unencumbered software released into the public domain.
+'// For more information, please refer to  https://github.com/hongwenjun
+
 Public Function Simple_box_five(Optional ByVal l As Double, Optional ByVal w As Double, Optional ByVal h As Double, Optional ByVal b As Double = 15)
   Dim sr As New ShapeRange, wing As New ShapeRange, BottomWing As ShapeRange
   Dim sh As Shape
@@ -42,7 +45,6 @@ Public Function Simple_box_five(Optional ByVal l As Double, Optional ByVal w As 
   sr.Add SealLine
   
   sr.CreateSelection: sr.Group
-  
 End Function
 
 Private Function DrawBottomWing(ByVal l As Double, ByVal w As Double, ByVal b As Double) As ShapeRange
@@ -98,7 +100,7 @@ Private Function DrawBottomWing(ByVal l As Double, ByVal w As Double, ByVal b As
   
   sr(2).Rotate -90: sr(3).Rotate -90
   sr(2).LeftX = 2 * w + l: sr(3).LeftX = w
-  sr(2).TopY = 0: sr(3).TopY = 0
+  sr(2).topY = 0: sr(3).topY = 0
   Set DrawBottomWing = sr
   
 End Function
@@ -108,7 +110,6 @@ Public Function Simple_box_four(Optional ByVal l As Double, Optional ByVal w As 
   Dim sr As New ShapeRange, wing As New ShapeRange
   Dim sh As Shape
   l1x = w: l2x = w + l: l3x = 2 * w + l: l4x = 2 * (w + l)
-  
   
   '// 绘制主体上下盖矩形
   Set mainRect_aw = ActiveLayer.CreateRectangle(0, 0, w, h)
@@ -155,7 +156,6 @@ Public Function Simple_box_four(Optional ByVal l As Double, Optional ByVal w As 
   sr.SetOutlineProperties Color:=CreateCMYKColor(100, 0, 0, 0)
   sr.Add SealLine: sr.Add SealLine2
   sr.CreateSelection: sr.Group
-  
   
 End Function
 
@@ -260,17 +260,17 @@ End Function
 
 Private Function DrawWing(ByVal w As Double, ByVal h As Double) As Shape
     Dim sp As SubPath, crv As Curve
-    Dim x As Double, Y As Double
-    x = w: Y = h
+    Dim x As Double, y As Double
+    x = w: y = h
     
     '// 绘制 Box 翅膀 Wing
     Set crv = Application.CreateCurve(ActiveDocument)
     Set sp = crv.CreateSubPath(0, 0)
     sp.AppendLineSegment 0, 4
     sp.AppendLineSegment 2, 6
-    sp.AppendLineSegment 6, Y - 2.5
-    sp.AppendCurveSegment2 8.5, Y, 6.2, Y - 1.25, 7, Y
-    sp.AppendLineSegment x - 2, Y
+    sp.AppendLineSegment 6, y - 2.5
+    sp.AppendCurveSegment2 8.5, y, 6.2, y - 1.25, 7, y
+    sp.AppendLineSegment x - 2, y
     sp.AppendLineSegment x - 2, 3
     sp.AppendLineSegment x, 0
     
@@ -280,14 +280,14 @@ End Function
 
 Private Function DrawBond(ByVal w As Double, ByVal h As Double, ByVal move_x As Double, ByVal move_y As Double) As Shape
     Dim sp As SubPath, crv As Curve
-    Dim x As Double, Y As Double
-    x = w: Y = h
+    Dim x As Double, y As Double
+    x = w: y = h
     
     '// 绘制 Box 粘合边 Bond
     Set crv = Application.CreateCurve(ActiveDocument)
     Set sp = crv.CreateSubPath(0, 0)
-    sp.AppendLineSegment 0, Y
-    sp.AppendLineSegment x, Y - 5
+    sp.AppendLineSegment 0, y
+    sp.AppendLineSegment x, y - 5
     sp.AppendLineSegment x, 5
 
     sp.Closed = True
@@ -334,22 +334,25 @@ End Function
 
 
 Public Function Simple_3Deffect()
-    Dim sr As ShapeRange    ' 定义物件范围
-    Set sr = ActiveSelectionRange   ' 选择3个物件
+  Dim sr As ShapeRange            '// 定义物件范围
+  Set sr = ActiveSelectionRange   '// 选择3个物件
   
-    If sr.Count >= 3 Then
-      ' // 先上下再左右排序
-      sr.Sort " @shape1.Top * 100 - @shape1.Left > @shape2.Top * 100 - @shape2.Left"
+  If sr.Count >= 3 Then
+  
+  '// 先上下再左右排序
+#If VBA7 Then
+    sr.Sort " @shape1.Top * 100 - @shape1.Left > @shape2.Top * 100 - @shape2.Left"
+#Else
+    Set ssr = X4_Sort_ShapeRange(sr, topWt_left)
+#End If
+
+    sr(1).Stretch 0.951, 0.525      ' 顶盖物件缩放修正和变形
+    sr(1).Skew 41.7, 7#
       
-      sr(1).Stretch 0.951, 0.525      ' 顶盖物件缩放修正和变形
-      sr(1).Skew 41.7, 7#
-        
-      sr(2).Stretch 0.951, 0.937      ' 正面物件缩放修正和变形
-      sr(2).Skew 0#, 7#
-      
-      sr(3).Stretch 0.468, 0.937      ' 侧面物件缩放修正和变形
-      sr(3).Skew 0#, -45#
-      
-    End If
+    sr(2).Stretch 0.951, 0.937      ' 正面物件缩放修正和变形
+    sr(2).Skew 0#, 7#
     
+    sr(3).Stretch 0.468, 0.937      ' 侧面物件缩放修正和变形
+    sr(3).Skew 0#, -45#
+  End If
 End Function

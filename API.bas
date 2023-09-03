@@ -2,8 +2,6 @@ Attribute VB_Name = "API"
 '// This is free and unencumbered software released into the public domain.
 '// For more information, please refer to  https://github.com/hongwenjun
 
-'// Attribute VB_Name = "CorelVBA工具窗口启动"   CorelVBA Tool Window Launches  2023.6.11
-
 '// CorelDRAW 窗口刷新优化和关闭
 Public Function BeginOpt(Optional ByVal name As String = "Undo")
   EventsEnabled = False
