@@ -1,7 +1,7 @@
 VERSION 5.00
 Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} LinesForm 
    Caption         =   "LinesForm"
-   ClientHeight    =   1620
+   ClientHeight    =   2430
    ClientLeft      =   45
    ClientTop       =   390
    ClientWidth     =   4680
@@ -13,10 +13,10 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
 '// This is free and unencumbered software released into the public domain.
 '// For more information, please refer to  https://github.com/hongwenjun
 
-<<<<<<< HEAD
 '// 插件名称 VBA_UserForm
 Private Const TOOLNAME As String = "LYVBA"
 Private Const SECTION As String = "LinesForm"
@@ -46,8 +46,6 @@ Sub saveFormPos(bDoSave As Boolean)
   End If
 End Sub
 
-=======
->>>>>>> 06150b8661ccde06bd8f1e2522c77ce48be72b83
 Private Sub MyPen_Click()
 On Error GoTo ErrorHandler
   API.BeginOpt
@@ -58,11 +56,7 @@ End Sub
 
 
 '// 左键右键Ctrl三键控制
-<<<<<<< HEAD
 Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
-=======
-Private Sub PenDrawLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal Y As Single)
->>>>>>> 06150b8661ccde06bd8f1e2522c77ce48be72b83
 On Error GoTo ErrorHandler
   API.BeginOpt
   If Button = 2 Then
@@ -159,10 +153,41 @@ Private Sub Move_Up_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, B
   End If
 End Sub
 
+'// 测量标尺和水平尺
+Private Sub Ruler_Measuring_BT_Click()
+  '// 角度转平
+  Angle_to_Horizon
+End Sub
+
+'// 选择的物件平均距离
 Private Sub Average_Distance_BT_Click()
   Average_Distance
 End Sub
 
 Private Sub chkAutoDistribute_Click()
   AutoDistribute_Key = chkAutoDistribute.Value
+End Sub
+
+'// 镜像工具
+Private Sub MirrorLine_Click()
+  Mirror_ByGuide
+End Sub
+
+'// 平行线工具 CTRL 键设置距离
+Private Sub ParallelLines_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal x As Single, ByVal y As Single)
+  Dim sp As Double
+  text = GlobalUserData("SpaceWidth", 1)
+  sp = Val(text)
+  If Button = 2 Then   '// 右键的代码
+    Create_Parallel_Lines -sp
+  ElseIf Shift = fmCtrlMask Then     '// 左键的代码
+    Create_Parallel_Lines sp
+  Else    '// CTRL的代码
+    Create_Parallel_Lines Set_Space_Width
+  End If
+End Sub
+
+'// 标记镜像参考线
+Private Sub Set_Guide_Click()
+  Set_Guides_Name
 End Sub
