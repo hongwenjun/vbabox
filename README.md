@@ -11,13 +11,28 @@
 - 4.选择多个物件，按从上到下按左对齐，鼠标左右键加Ctrl控制物件的间距
 - 5.兰雅VBA 线段简易包装盒插件，鼠标左右键加Ctrl，目前有三种样式(如图)
 - 6.选择盒子的顶正侧三面，点击生成简易的3D变形效果
+- 7.2023年9月更新功能: 添加批量旋转移动 镜像 自动间距 转平功能
 
 ### github开源网址: https://github.com/hongwenjun/vbabox
 ### 兰雅VBA 线段简易包装盒插件 [免费开源下载](https://lyvba.com/Lanya_LinesTool.zip)
 
-
+## 功能演示
+- 绘制易包装盒
 ![](https://github.com/hongwenjun/vbabox/blob/main/img/vbabox.webp)
 
+- 镜像功能
+![](https://github.com/hongwenjun/vbabox/blob/main/img/Mirror.gif)
+
+- 物件自动中心间距
+![](https://github.com/hongwenjun/vbabox/blob/main/img/Average.gif)
+
+- 物件转水平
+![](https://github.com/hongwenjun/vbabox/blob/main/img/Horizon.gif)
+
+- 平线线功能
+![](https://github.com/hongwenjun/vbabox/blob/main/img/Paralle.gif)
+
+--
 ## CorelDRAW VBA 插件 简易的长宽高盒子插件和源码和步骤原理
 
 https://www.bilibili.com/video/BV1MF411f7qu/

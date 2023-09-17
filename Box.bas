@@ -236,8 +236,8 @@ Public Function Simple_box_three(Optional ByVal l As Double, Optional ByVal w As
 End Function
 
 '// 画一条线，设置轮廓色 M100
-Private Function DrawLine(X1, Y1, X2, Y2) As Shape
-  Set DrawLine = ActiveLayer.CreateLineSegment(X1, Y1, X2, Y2)
+Private Function DrawLine(x1, y1, x2, y2) As Shape
+  Set DrawLine = ActiveLayer.CreateLineSegment(x1, y1, x2, y2)
   DrawLine.Outline.SetProperties Color:=CreateCMYKColor(0, 100, 0, 0)
 End Function
 

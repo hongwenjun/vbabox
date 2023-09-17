@@ -2,6 +2,7 @@ Attribute VB_Name = "AverageDistance"
 Public AutoDistribute_Key As Boolean
 Public first_StaticID As Long
 
+'// 选择的物件平均距离
 Public Function Average_Distance()
   On Error GoTo ErrorHandler
   API.BeginOpt
