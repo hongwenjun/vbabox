@@ -18,24 +18,24 @@
 
 ## 功能演示
 - 绘制易包装盒
-![](https://github.com/hongwenjun/vbabox/blob/main/img/vbabox.webp)
+![](./img/vbabox.webp)
 
 - 镜像功能
-![](https://github.com/hongwenjun/vbabox/blob/main/img/Mirror.gif)
+![](./img//img/Mirror.gif)
 
 - 物件自动中心间距
-![](https://github.com/hongwenjun/vbabox/blob/main/img/Average.gif)
+![](./img//Average.gif)
 
 - 物件转水平
-![](https://github.com/hongwenjun/vbabox/blob/main/img/Horizon.gif)
+![](./img//Horizon.gif)
 
 - 平线线功能
-![](https://github.com/hongwenjun/vbabox/blob/main/img/Paralle.gif)
+![](./img//Paralle.gif)
 
 ----
 ## CorelDRAW VBA 插件 简易的长宽高盒子插件和源码和步骤原理
 
-https://www.bilibili.com/video/BV1MF411f7qu/
+- https://www.bilibili.com/video/BV1MF411f7qu/
 
 ### 前两天在本论坛看到网友，问怎么绘制如下图简单的封套盒子。所以有了思路，就动手写了代码
 
@@ -63,7 +63,7 @@ End Function
 ### 代码中的公式，不用初中知识应该就可以理解的。就是计算矩形多大，绘制4条线，把线移动到正确的位置
 
 ![](https://lyvba.com/wp-content/uploads/2023/08/box2.png)
-```
+```bas
 Public Function Simple_box_two()
   ActiveDocument.Unit = cdrMillimeter
   l = 100: w = 50: h = 70: b = 15
@@ -85,7 +85,7 @@ End Function
 ```
 
 ### 绘制线条的代码写成函数调用，可以设置颜色或者粗细
-```
+```bas
 '// 画一条线，设置轮廓色 M100
 Private Function DrawLine(X1, Y1, X2, Y2) As Shape
   Set DrawLine = ActiveLayer.CreateLineSegment(X1, Y1, X2, Y2)
