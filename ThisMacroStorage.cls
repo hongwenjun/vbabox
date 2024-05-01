@@ -7,6 +7,13 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = True
+#If VBA7 Then
+  Private Declare PtrSafe Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Integer
+#Else
+  Private Declare Function GetAsyncKeyState Lib "user32" (ByVal vKey As Long) As Integer
+#End If
+Public sreg As New ShapeRange
+
 Private Sub GlobalMacroStorage_SelectionChange()
 On Error GoTo ErrorHandler
   Dim n As Long
@@ -30,8 +37,27 @@ On Error GoTo ErrorHandler
   Else
       LinesForm.Caption = "LinesForm By Lanya"
   End If
+
+  If ActiveSelection.Shapes.Count = 1 Then
+    '// ¼ì²âCtrl:Alt:Shift¼ü×´Ì¬ 17-18-16
+    
+    If scankey() = 17 Then
+      If sreg.Exists(ActiveShape) Then sreg.Remove sreg.IndexOf(ActiveShape)
+      sreg.Add ActiveShape
+      LinesForm.Caption = "ActiveShape add SREG! Count:" & sreg.Count
+    End If
+    
+    If scankey() = 18 Then
+      sreg.RemoveAll
+      LinesForm.Caption = "SREG is Removed!"
+    End If
+    
+    If scankey() = 16 Then
+      sreg.CreateSelection
+    End If
   
-  
+  End If
+
   If ActiveSelection.Shapes.Count > 2 And AutoDistribute_Key Then
     Dim sr As ShapeRange
     Set sr = ActiveSelectionRange
@@ -43,3 +69,20 @@ On Error GoTo ErrorHandler
 ErrorHandler:
 
 End Sub
+
+Private Function scankey() As Long
+    Dim ctrlPressed As Boolean
+    Dim shiftPressed As Boolean
+    Dim altPressed As Boolean
+    
+    
+    ' ¼ì²âCtrl¼üµÄ×´Ì¬  ' ¼ì²âShift¼üµÄ×´Ì¬   ' ¼ì²âAlt¼üµÄ×´Ì¬
+    ctrlPressed = GetAsyncKeyState(17) And &H8000
+    shiftPressed = GetAsyncKeyState(16) And &H8000
+    altPressed = GetAsyncKeyState(18) And &H8000
+    
+    scankey = 0
+    If altPressed Then scankey = 18
+    If shiftPressed Then scankey = 16
+    If ctrlPressed Then scankey = 17
+End Function

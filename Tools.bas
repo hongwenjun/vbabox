@@ -23,7 +23,7 @@ Public Function Simple_Train_Arrangement(Space_Width As Double)
     '// 底对齐 If cnt > 1 Then s.SetPosition ssr(cnt - 1).RightX, ssr(cnt - 1).BottomY
     '// 改成顶对齐 2022-08-10
     ActiveDocument.ReferencePoint = cdrTopLeft + cdrBottomTop
-    If cnt > 1 Then s.SetPosition ssr(cnt - 1).RightX + Space_Width, ssr(cnt - 1).TopY
+    If cnt > 1 Then s.SetPosition ssr(cnt - 1).RightX + Space_Width, ssr(cnt - 1).topY
     cnt = cnt + 1
   Next s
 
